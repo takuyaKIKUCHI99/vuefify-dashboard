@@ -1,32 +1,69 @@
 <template>
-  <v-app>
-    <v-card width="400px" class="mt-5 mx-a">
-      <v-card-title class="pb-0">
-        <h1>Login</h1>
-      </v-card-title>
-      <v-card-text>
-        <v-form>
-          <v-text-field
-            label="Username"
-            prepend-icon="mdi-account-circle"
-          />
-          <v-text-field
-            :type="showPassword ? 'text' : 'password'"
-            label="Password"
-            prepend-icon="mdi-lock"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-          />
-        </v-form>
-      </v-card-text>
-      <v-divider />
-      <v-card-actions>
-        <v-btn color="success">Register</v-btn>
+  <div id="app">
+    <v-app>
+      <v-app-bar app color="primary" dark>
+        <v-toolbar-title>Vuetify Dashboard</v-toolbar-title>
         <v-spacer />
-        <v-btn color="info">Login</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-app>
+        <v-btn text rounded>Home</v-btn>
+        <v-btn text rounded>Login</v-btn>
+      </v-app-bar>
+      <v-content>
+        <!-- Login Module -->
+        <v-card width="400" class="mt-5 mx-auto">
+          <v-card-title class="pb-0">
+            <h1>Login</h1>
+          </v-card-title>
+          <v-card-text>
+            <v-form>
+              <v-text-field
+                label="Username"
+                prepend-icon="mdi-account-circle"
+              />
+              <v-text-field
+                :type="showPassword ? 'text' : 'password'"
+                label="Password"
+                prepend-icon="mdi-lock"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                @click:append="showPassword = !showPassword"
+              />
+            </v-form>
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-btn color="success">Register</v-btn>
+            <v-spacer />
+            <v-btn color="info">Login</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-content>
+      <v-footer
+        color="primary lighten-1"
+        padless
+      >
+        <v-row
+          justify="center"
+          no-gutters
+        >
+          <v-btn
+            v-for="link in links"
+            :key="link"
+            color="white"
+            text
+            rounded
+            class="my-2"
+          >
+            {{ link }}
+          </v-btn>
+          <v-col
+            class="primary lighten-2 py-4 text-center white--text"
+            cols="12"
+          >
+            {{ new Date().getFullYear() }} — <strong>Vuetify Dashboard</strong>
+          </v-col>
+        </v-row>
+      </v-footer>
+    </v-app>
+  </div>
 </template>
 
 <script>
@@ -35,6 +72,7 @@ export default {
 
   data: () => ({
     showPassword: false,
+    links: ["Home", "Login"],
   }),
 };
 </script>
