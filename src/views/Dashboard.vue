@@ -3,7 +3,7 @@
     <h1>Dashboard</h1>
 
     <v-row>
-      <v-col v-for="sale in sales" :key="`${sale.title}`">
+      <v-col v-for="sale in sales" :key="`${sale.title}`" cols="12" md="4">
         <SalesGraph :sale="sale" />
       </v-col>
     </v-row>
@@ -24,18 +24,15 @@
       </v-col>
     </v-row>
 
-    <v-snackbar v-model="snackbar">
+    <v-snackbar v-model="snackbar" :left="$vuetify.breakpoint.lgAndUp">
       You have selected {{ selectedEmployee.name }}, {{ selectedEmployee.title }}
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="pink"
-          text
-          v-bind="attrs"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
+      <v-btn
+        color="pink"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
     </v-snackbar>
   </v-container>
 </template>
@@ -55,12 +52,14 @@ import statisticsData from "@/data/statistics.json";
 
 export default {
   name: "Dashboard",
+
   components: {
     EmployeesTable,
     EventTimeline,
     SalesGraph,
     StatisticCard,
   },
+
   data() {
     return {
       // Employees table
@@ -87,6 +86,7 @@ export default {
       statistics: statisticsData,
     };
   },
+
   methods: {
     setEmployee(event) {
       this.snackbar = true;
