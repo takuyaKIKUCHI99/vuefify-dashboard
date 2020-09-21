@@ -1,18 +1,21 @@
 <template>
   <div>
     <h1>Dashboard</h1>
-    <v-data-table
-      :headers="headers"
-      :items="employees"
-      :items-per-page="5"
-      :sort-by="['id', 'name', 'title', 'salary']"
-      :sort-desc="[false, false, false, true]"
-      multi-sort
-      class="elevation-1"
-      @click:row="selectRow"
-    ></v-data-table>
+
+    <SalesGraph v-for="sale in sales" :key="`${sale.title}`" :sale="sale" />
+
+    <StatisticCard
+      v-for="statistic in statistics"
+      :key="`${statistic.title}`"
+      :statistic="statistic"
+    />
+
+    <EmployeesTable :employees="employees" @select-employee="setEmployee"/>
+
+    <EventTimeline :timeline="timeline" />
+
     <v-snackbar v-model="snackbar">
-      You have selected {{ currentEmployee }}
+      You have selected {{ selectedEmployee.name }}, {{ selectedEmployee.title }}
       <template v-slot:action="{ attrs }">
         <v-btn
           color="pink"
@@ -28,27 +31,57 @@
 </template>
 
 <script>
-import employees from "@/data/employees.json";
+// Components
+import EmployeesTable from "@/components/EmployeesTable.vue";
+import EventTimeline from "@/components/EventTimeline.vue";
+import SalesGraph from "@/components/SalesGraph.vue";
+import StatisticCard from "@/components/StatisticCard.vue";
+
+// Data
+import employeesData from "@/data/employees.json";
+import timelineData from "@/data/timeline.json";
+import salesData from "@/data/sales.json";
+import statisticsData from "@/data/statistics.json";
 
 export default {
   name: "Dashboard",
+  components: {
+    EmployeesTable,
+    EventTimeline,
+    SalesGraph,
+    StatisticCard,
+  },
   data() {
     return {
-      snackbar: false,
-      currentEmployee: "",
+      // Employees table
+      employees: employeesData,
+      selectedEmployee: {
+        name: "",
+        title: "",
+      },
       headers: [
         { text: "ID", value: "id" },
         { text: "Name", value: "name" },
         { text: "Title", value: "title" },
         { text: "Salary", value: "salary" },
       ],
-      employees: employees,
+      snackbar: false,
+
+      // Event timeline
+      timeline: timelineData,
+
+      // Sales graph
+      sales: salesData,
+
+      // Statistic card
+      statistics: statisticsData,
     };
   },
   methods: {
-    selectRow(event) {
+    setEmployee(event) {
       this.snackbar = true;
-      this.currentEmployee = event.name;
+      this.selectedEmployee.name = event.name;
+      this.selectedEmployee.title = event.name;
     },
   },
 };
